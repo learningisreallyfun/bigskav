@@ -3,363 +3,481 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Olympic Rainforest — Interactive Poster</title>
+  <title>Olympic Rainforest — Ultimate Interactive Poster</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&family=Merriweather:wght@700&display=swap" rel="stylesheet">
 
   <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity crossorigin/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity crossorigin></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
     :root{
-      --bg: #f6f4ef;
-      --card: #fff;
-      --muted: #5a645c;
-      --ink: #11201a;
-      --line: #e4ded4;
-      --accent: #1f6d49;
-      --accent-2: #2c5d73;
-      --gold: #8d6a2a;
-      --glass: rgba(255,255,255,0.6);
-      --shadow: 0 10px 30px rgba(16,20,18,0.06);
-      --radius: 14px;
-      --safe-font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --bg:#f6f4ef; --card:#fff; --muted:#52605a; --ink:#0f2018;
+      --line:#e3ddd4; --accent:#1f6d49; --accent-2:#2c5d73; --gold:#8d6a2a;
+      --radius:14px; --shadow:0 12px 30px rgba(10,20,16,0.06);
+      --glass: rgba(255,255,255,0.7);
+      --max-width:1250px;
     }
-
-    /* Page reset */
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family:var(--safe-font);
-      background: linear-gradient(180deg,var(--bg),#eef3ee 120%);
-      color:var(--ink);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-      padding-bottom:40px;
+      margin:0; font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--ink);
+      background: linear-gradient(180deg,var(--bg),#eef3ee 140%); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-
-    /* Topbar */
-    header{position:sticky;top:0;z-index:60;background:rgba(246,244,239,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-    .topbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:12px 20px;gap:12px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#2b7a5b);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-family:Merriweather,serif}
+    header{position:sticky;top:0;background:rgba(250,248,244,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:90}
+    .topbar{max-width:var(--max-width);margin:0 auto;padding:12px 18px;display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#2b7a5b);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-family:Merriweather,serif}
     nav{display:flex;gap:8px;align-items:center;flex:1;overflow:auto;padding:6px}
-    .pill{flex:none;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:700;color:var(--ink);text-decoration:none}
+    .pill{padding:8px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:700;text-decoration:none;color:var(--ink)}
     .controls{display:flex;gap:8px;align-items:center}
-    .btn{border:0;background:var(--card);padding:8px 12px;border-radius:10px;border:1px solid var(--line);cursor:pointer}
-    .btn.primary{background:var(--accent);color:#fff;border-color:rgba(31,109,73,0.9)}
-    .btn.ghost{background:transparent}
 
-    /* Main layout */
-    main{max-width:1200px;margin:18px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:18px}
-    @media(min-width:1100px){ main{grid-template-columns: 1fr 420px} }
+    main{max-width:var(--max-width);margin:18px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:18px}
+    @media(min-width:1150px){ main{grid-template-columns:1fr 480px} }
 
-    /* Sections */
-    section{background:linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.6));border-radius:var(--radius);padding:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
-    .hero-card{display:flex;gap:12px;align-items:flex-start}
-    .hero-card img{width:100%;height:auto;border-radius:10px;object-fit:cover;max-height:260px}
-
+    section{background:linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.7));padding:16px;border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow)}
     h1,h2,h3{font-family:Merriweather,serif;margin:0}
-    h1{font-size:30px}
-    h2{font-size:18px;margin-bottom:6px}
+    h1{font-size:28px}
     .kicker{font-weight:800;color:var(--gold);font-size:12px;text-transform:uppercase}
     .muted{color:var(--muted)}
     .small{font-size:13px;color:var(--muted)}
+    .card{background:var(--card);padding:12px;border-radius:12px;border:1px solid var(--line);}
 
-    /* Card grid (left column content) */
-    .stack{display:grid;gap:12px}
-    .card{background:var(--card);padding:12px;border-radius:12px;border:1px solid var(--line)}
-    .card:hover{transform:translateY(-6px);transition:transform .28s cubic-bezier(.2,.9,.2,1)}
-    .moss{background:linear-gradient(180deg,#eaf6ef,#f6fbf9);border-color:rgba(31,109,73,0.06)}
-
-    /* Map container (right column) */
-    #mapArea{height:640px;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,0.06)}
+    /* Map */
+    #mapArea{height:720px;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,0.06)}
     #map{height:100%;width:100%}
-    .map-controls{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px}
-    .legend{background:rgba(255,255,255,0.85);padding:8px;border-radius:10px;border:1px solid var(--line);font-size:13px}
-    .layer-toggle{display:flex;flex-direction:column;gap:6px}
 
-    /* Chart area */
+    /* charts */
     .chart-wrap{height:220px}
-    canvas{max-width:100%}
 
-    /* Species list */
-    .species-list{display:grid;gap:10px}
-    .species-row{display:flex;gap:12px;align-items:center}
-    .avatar{width:60px;height:60px;border-radius:8px;background:linear-gradient(135deg,#e9f7ef,#f0fbf9);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent)}
+    /* chains & diagrams */
+    .diagram{display:flex;flex-direction:column;gap:10px}
+    .diagram svg{width:100%;height:180px;border-radius:8px}
+    .chain-legend{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
-    /* Modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(6,10,8,0.4);display:none;align-items:center;justify-content:center;z-index:140}
-    .modal{background:var(--card);border-radius:12px;padding:18px;max-width:820px;width:96%;box-shadow:0 30px 60px rgba(8,16,12,0.4)}
-    .modal.open{display:block}
-    .close{float:right;border:0;background:transparent;font-size:18px;cursor:pointer}
+    /* food web */
+    .web{display:flex;flex-direction:column;gap:10px}
+    #foodWeb{width:100%;height:520px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfbfb);border:1px solid #eee}
 
-    /* Food web */
-    .web{display:flex;align-items:center;justify-content:center;padding:12px}
-    .web svg{max-width:100%;height:320px}
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(6,10,8,0.45);z-index:200}
+    .modal{background:var(--card);padding:18px;border-radius:12px;max-width:920px;width:94%;box-shadow:0 30px 60px rgba(6,12,10,0.45)}
+    .close{border:0;background:transparent;font-size:18px;cursor:pointer}
 
-    /* Footer / print */
-    footer{font-size:13px;color:var(--muted)}
-    @media print{
-      header, .controls, .btn, .topbar {display:none}
-      body {background: #fff}
-      main{grid-template-columns:1fr}
-      #map{height:360px !important}
-    }
+    /* buttons */
+    .btn{border:0;background:var(--card);padding:8px 12px;border-radius:10px;border:1px solid var(--line);cursor:pointer}
+    .btn.primary{background:var(--accent);color:#fff;border-color:rgba(31,109,73,0.9)}
+    .muted-box{padding:10px;border-radius:10px;background:#fbfbfb;border:1px solid #eee;color:var(--muted)}
 
-    /* Dark theme */
-    .dark{--bg:#091012;--card:#0e1412;--muted:#9fb7a8;--ink:#e6efe9;--line:rgba(255,255,255,0.06);--accent:#2bb57b}
-    .dark body{background:linear-gradient(180deg,#071014,#07251a)}
-    .theme-toggle{display:flex;gap:8px;align-items:center}
-
-    /* small utils */
-    .muted-small{font-size:13px;color:var(--muted)}
-    .controls-row{display:flex;gap:8px;align-items:center}
-    .legend-item{display:flex;gap:6px;align-items:center}
-    .dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+    /* small utilities */
+    .grid-2{display:grid;gap:10px;grid-template-columns:1fr}
+    @media(min-width:760px){ .grid-2{grid-template-columns:1fr 1fr} }
     .hidden{display:none}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   </style>
 </head>
-
 <body>
   <header>
     <div class="topbar" role="banner">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">OR</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="logo">OR</div>
         <div>
-          <div style="font-weight:800">Olympic Rainforest</div>
-          <div class="small muted">Interactive ecology poster — Olympic National Park</div>
+          <div style="font-weight:800">Olympic Rainforest — Ultimate Poster</div>
+          <div class="small muted">In-depth maps, chains, cycles, species profiles, diagrams, and export</div>
         </div>
       </div>
 
-      <nav aria-label="Main navigation">
+      <nav aria-label="Main">
         <a class="pill" href="#place">Place</a>
         <a class="pill" href="#map">Map</a>
+        <a class="pill" href="#abiotic">Abiotic</a>
         <a class="pill" href="#biotic">Biotic</a>
+        <a class="pill" href="#chains">Chains</a>
+        <a class="pill" href="#foodweb">Food web</a>
         <a class="pill" href="#cycles">Cycles</a>
-        <a class="pill" href="#people">People</a>
       </nav>
 
-      <div class="controls" aria-hidden="false">
-        <div class="theme-toggle" role="group" aria-label="Theme">
-          <button class="btn" id="toggleTheme" title="Toggle theme (T)">🌤</button>
-        </div>
-        <div class="controls-row">
-          <button class="btn" id="geolocate" title="Center map on your location">📍 My location</button>
-          <button class="btn primary" onclick="document.querySelector('#map').scrollIntoView({behavior:'smooth'})">Explore map</button>
-        </div>
+      <div class="controls" role="toolbar" aria-label="Actions">
+        <button class="btn" id="printBtn" title="Print poster">🖨 Print</button>
+        <button class="btn primary" id="downloadWeb" title="Download the food web as SVG">⬇️ Download web SVG</button>
       </div>
     </div>
   </header>
 
   <main>
     <!-- Left: primary content -->
-    <section id="place" aria-labelledby="placeTitle">
-      <div class="hero-card">
+    <section id="place">
+      <div style="display:flex;gap:12px;align-items:flex-start">
         <div style="flex:1">
-          <div class="kicker">Ecology poster · Washington</div>
-          <h1 id="placeTitle">Olympic National Park — Temperate Rainforest</h1>
-          <p class="muted">Mild temperatures, huge rainfall, massive conifers, salmon-bearing rivers, and a dynamic coastal-to-alpine ecosystem. Explore the map, charts, and interactive food web to learn more.</p>
+          <div class="kicker">Overview</div>
+          <h1>Olympic National Park — Temperate Rainforest</h1>
+          <p class="muted">A biologically rich coastal rainforest shaped by massive rainfall, ocean influence, old-growth forests and salmon-driven nutrient fluxes. This expanded poster layers ecology, processes, and species interactions into an interactive learning resource.</p>
 
-          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-            <div class="card" style="min-width:160px">
-              <div class="small muted">Biome</div><strong>Temperate rainforest</strong>
-            </div>
-            <div class="card" style="min-width:160px">
-              <div class="small muted">Ecosystem</div><strong>Olympic National Park</strong>
-            </div>
-            <div class="card" style="min-width:160px">
-              <div class="small muted">Avg annual rainfall (Hoh)</div><strong>~140–167 in</strong>
-            </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:12px">
+            <div class="card"><div class="small muted">Biome</div><strong>Pacific temperate rainforest</strong></div>
+            <div class="card"><div class="small muted">Key processes</div><strong>Rainfall/fog, decomposition, salmon nutrient subsidy, mycorrhizal networks</strong></div>
+            <div class="card"><div class="small muted">Threats</div><strong>Logging, fragmentation, barred owl, climate change</strong></div>
           </div>
         </div>
 
         <div style="width:360px">
-          <div class="card" style="padding:8px">
-            <picture>
-              <img src="public/photos/hoh.jpg" alt="Hoh Rain Forest" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=640 height=420><rect fill=\\'%23d7efe4\\' width=100% height=100%/><text x=50% y=50% font-family=\\'Inter\\' font-size=16 text-anchor=middle fill=\\'%23625f56\\'>Hoh Rain Forest — add public/photos/hoh.jpg</text></svg>'" style="width:100%;border-radius:8px;display:block"/>
-            </picture>
-            <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
-              <button class="btn" id="openAbout">About this poster</button>
-              <button class="btn" id="printBtn" title="Print poster">🖨 Print</button>
-              <div style="flex:1;text-align:right" class="small muted">Keyboard: M → map, T → theme</div>
+          <div class="card">
+            <img src="public/photos/hoh.jpg" alt="Hoh Rain Forest" style="width:100%;height:auto;border-radius:8px;object-fit:cover" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=640 height=420><rect fill=\\'%23d7efe4\\' width=100% height=100%/><text x=50% y=50% font-family=\\'Inter\\' font-size=16 text-anchor=middle fill=\\'%23625f56\\'>Add public/photos/hoh.jpg</text></svg>'"/>
+            <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+              <div class="muted-small">Hoh avg rainfall</div>
+              <div style="font-weight:700">~140–167 in/year</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Right column: map and interactive panels -->
-    <section id="map" aria-labelledby="mapTitle">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+    <!-- Right: map column -->
+    <section id="map">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
-          <div class="kicker">Task 2</div>
-          <h2 id="mapTitle">Upgraded interactive map</h2>
-          <div class="small muted">Satellite, terrain, and topo tiles; rainforest corridor overlay; species markers and migration polylines — pan/zoom the map, toggle layers.</div>
+          <div class="kicker">Interactive</div>
+          <h2>Advanced map</h2>
+          <p class="small muted">Leaflet map with multiple basemaps and a rainforest corridor overlay. Markers show key species and features. (Illustrative — I can add precise GeoJSON upon request.)</p>
         </div>
-
-        <div class="legend" aria-hidden="true">
-          <div style="display:flex;gap:8px;align-items:center">
-            <div class="legend-item"><span class="dot" style="background:var(--accent)"></span> Olympic NP</div>
-            <div style="width:8px"></div>
-            <div class="legend-item"><span class="dot" style="background:rgba(31,109,73,0.14);border-radius:4px;width:22px;height:12px;display:inline-block"></span> Rainforest corridor</div>
-          </div>
-        </div>
+        <div class="muted small">Tip: use the layer control to toggle base maps</div>
       </div>
 
-      <div id="mapArea" role="region" aria-label="Interactive map">
-        <div id="map" tabindex="0"></div>
+      <div id="mapArea" style="margin-top:10px">
+        <div id="map" tabindex="0" role="application" aria-label="Interactive map"></div>
       </div>
 
-      <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap">
+      <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
         <div class="card" style="flex:1;min-width:280px">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div class="small muted">Climate snapshots</div>
-              <strong>Hoh Rainforest — monthly climate</strong>
-            </div>
-            <div class="small muted">Data: illustrative</div>
-          </div>
-          <div class="chart-wrap" style="margin-top:8px">
-            <canvas id="climateChart" aria-label="Monthly rainfall and temperature chart" role="img"></canvas>
-          </div>
+          <div class="small muted">Climate chart</div>
+          <strong>Hoh monthly rainfall & temp</strong>
+          <div class="chart-wrap" style="margin-top:8px"><canvas id="climateChart"></canvas></div>
         </div>
 
         <div class="card" style="min-width:260px;max-width:360px">
-          <div class="small muted">Population trend</div>
-          <strong>Northern spotted owl occupancy (illustrative)</strong>
-          <div style="margin-top:8px">
-            <canvas id="owlChart" aria-label="Spotted owl population trend" role="img" height="120"></canvas>
-          </div>
-          <div class="small muted" style="margin-top:8px">Occupancy fell from ~81% (1995) to ~21% (2013) in sampled areas — efforts focus on old-growth protection and barred owl control.</div>
+          <div class="small muted">Population</div>
+          <strong>Northern spotted owl occupancy</strong>
+          <div style="margin-top:8px"><canvas id="owlChart" height="120"></canvas></div>
+          <div class="small muted" style="margin-top:8px">Decline illustrates need for habitat protection and competition management.</div>
         </div>
       </div>
     </section>
 
-    <!-- Left column continuation (below map on narrow screens) -->
-    <section id="biotic" aria-labelledby="bioticTitle">
+    <!-- Abiotic -->
+    <section id="abiotic">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div class="kicker">Task 4</div>
-          <h2 id="bioticTitle">Biotic factors & species</h2>
-          <p class="muted">Tap species to open details, images, habitats, and interactions. Data cards include trophic role and conservation status.</p>
+          <div class="kicker">Expanded</div>
+          <h2>Abiotic factors — extensive listing with roles</h2>
+          <p class="muted">Physical and chemical conditions that shape species distributions, processes, and rates.</p>
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px">
-        <div class="card moss">
-          <strong>Sitka spruce</strong><div class="small muted" style="margin-top:6px">Tall canopy tree. Click for more.</div>
-          <div style="margin-top:8px"><button class="btn" data-species="sitka">View</button></div>
-        </div>
-        <div class="card moss">
-          <strong>Western hemlock</strong><div class="small muted" style="margin-top:6px">Shade-tolerant conifer.</div>
-          <div style="margin-top:8px"><button class="btn" data-species="hemlock">View</button></div>
-        </div>
+      <div class="grid-2" style="margin-top:12px">
         <div class="card">
-          <strong>Roosevelt elk</strong><div class="small muted" style="margin-top:6px">Large herbivore — browses ferns and shrubs.</div>
-          <div style="margin-top:8px"><button class="btn" data-species="elk">View</button></div>
+          <h3>Climate & Hydrology</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Precipitation patterns:</strong> Rain shadows, orographic lifting, very high coastal totals.</li>
+            <li><strong>Fog & cloud immersion:</strong> Critical to summer water balance and epiphyte hydration.</li>
+            <li><strong>Streamflow & hydrographs:</strong> Seasonal peaks control salmon migration and spawning habitat.</li>
+            <li><strong>Groundwater & wetlands:</strong> Provide recharge and refugia for amphibians and invertebrates.</li>
+          </ul>
         </div>
+
         <div class="card">
-          <strong>Cougar</strong><div class="small muted" style="margin-top:6px">Apex predator that controls ungulate populations.</div>
-          <div style="margin-top:8px"><button class="btn" data-species="cougar">View</button></div>
+          <h3>Substrate & chemistry</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Nutrient pools:</strong> Organic horizons, nurse logs and mycorrhizal networks store and redistribute N and P.</li>
+            <li><strong>Mineralogy:</strong> Bedrock weathering influences base cations and pH.</li>
+            <li><strong>Temperature buffering:</strong> Ocean proximity and canopy moderates extremes.</li>
+          </ul>
         </div>
+
         <div class="card">
-          <strong>Northern spotted owl</strong><div class="small muted" style="margin-top:6px">Threatened; depends on old-growth forest.</div>
-          <div style="margin-top:8px"><button class="btn" data-species="owl">View</button></div>
+          <h3>Disturbance & physical processes</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Windthrow & gap dynamics</strong> — generate microsites for regeneration and create structural diversity.</li>
+            <li><strong>Mass wasting</strong> — landslides expose mineral soil and reset successional trajectories.</li>
+            <li><strong>Sea-level & coastline change</strong> — reshape estuarine habitats over centuries.</li>
+          </ul>
         </div>
+
         <div class="card">
-          <strong>Coho salmon</strong><div class="small muted" style="margin-top:6px">Keystone nutrient vector between ocean and forest.</div>
-          <div style="margin-top:8px"><button class="btn" data-species="salmon">View</button></div>
+          <h3>Anthropogenic modifiers</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Logging & fragmentation</strong> — reduce old-growth, increase edge effects, and alter hydrology.</li>
+            <li><strong>Roads & barriers</strong> — interfere with animal movement and salmon access.</li>
+            <li><strong>Climate change</strong> — shifts in precipitation form, ocean productivity, phenology timing, and disturbance regimes.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section id="webSection" aria-labelledby="webTitle">
+    <!-- Biotic -->
+    <section id="biotic">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div class="kicker">Task 6</div>
-          <h2 id="webTitle">Interactive food web</h2>
-          <div class="muted small">Click any node to highlight feeding links. Drag nodes to explore network structure.</div>
+          <div class="kicker">Expanded</div>
+          <h2>Biotic factors — long, annotated list</h2>
+          <p class="muted">Producers, consumers, decomposers, mutualists, pathogens, and functional groups with short role descriptions.</p>
         </div>
       </div>
 
-      <div class="card web">
-        <!-- Simple interactive SVG force-like layout implemented with JS -->
-        <svg id="foodWeb" viewBox="0 0 900 320" role="img" aria-label="Food web">
-          <!-- nodes and links will be injected by script -->
-        </svg>
+      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+        <div class="card moss">
+          <h3>Producers</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Sitka spruce</strong> — canopy-forming, high biomass.</li>
+            <li><strong>Western hemlock</strong> — shade-tolerant, understory recruitment.</li>
+            <li><strong>Western redcedar</strong> — structure & habitat.</li>
+            <li><strong>Sword fern</strong> — widespread groundcover.</li>
+            <li><strong>Red alder</strong> — nitrogen fixer on disturbed sites.</li>
+            <li><strong>Epiphytes & moss mats</strong> — large biomass reservoirs on trunks/branches.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Primary consumers & detritivores</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Roosevelt elk</strong>, <strong>Black-tailed deer</strong> — bulk herbivores shaping regeneration.</li>
+            <li><strong>Banana slug</strong> — detritivore linking litter to microbial food web.</li>
+            <li><strong>Insect herbivores</strong> — leaf and stem feeders, important in nutrient cycling.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Secondary & apex consumers</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Bobcat</strong>, <strong>Cougar</strong> — control meso- and ungulate populations.</li>
+            <li><strong>Northern spotted owl</strong> — old-growth specialist.</li>
+            <li><strong>Black bear & bald eagle</strong> — important salmon predators and nutrient redistributors.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Decomposers, microbes & fungi</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Wood-decay fungi</strong> — primary wood decomposition agents.</li>
+            <li><strong>Mycorrhizae</strong> — improve plant nutrient uptake and connect trees to networks.</li>
+            <li><strong>Soil bacteria</strong> — N mineralization, nitrification, denitrification.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Mutualists & commensals</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Lichens</strong> — symbiosis with algae/cyanobacteria.</li>
+            <li><strong>Epiphytic flora</strong> — use trees for substrate; provide microhabitats.</li>
+            <li><strong>Cleaner organisms & pollinators</strong> — insects and birds performing ecosystem services.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Pathogens & parasites</h3>
+          <ul class="muted small" style="margin-top:8px">
+            <li><strong>Ticks</strong> — parasitize mammals.</li>
+            <li><strong>Root pathogens</strong> — can create differential mortality and open niches.</li>
+            <li><strong>Introduced species</strong> — some insects or plants change competition outcomes.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <section id="cycles" aria-labelledby="cyclesTitle">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <!-- Chains -->
+    <section id="chains">
+      <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div class="kicker">Task 7</div>
-          <h2 id="cyclesTitle">Water, nitrogen, and carbon cycles</h2>
-          <p class="muted">Interactive steps and animated arrows explain how elements move through the system.</p>
-        </div>
-        <div>
-          <div class="small muted">Tip: click steps to emphasize routes</div>
+          <div class="kicker">Food chains</div>
+          <h2>Terrestrial, detrital, aquatic diagrams — annotated</h2>
+          <p class="muted">Click any box in the diagrams for an explanatory popup. Arrows are animated to indicate energy flow direction.</p>
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:10px">
-        <div class="card" id="cycleWater">
-          <strong>Water cycle</strong>
-          <ol style="margin-top:8px">
-            <li>Huge rainfall and coastal fog feed roots and streams.</li>
-            <li>Transpiration fuels fog and local rainfall patterns.</li>
-            <li>Rivers export water to the Pacific, then evaporation completes the cycle.</li>
-          </ol>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:12px">
+        <!-- Terrestrial detailed -->
+        <div class="card diagram">
+          <strong>Terrestrial plant → herbivore → carnivore</strong>
+          <svg viewBox="0 0 720 200" aria-label="Terrestrial chain" role="img" id="terrestrialSVG">
+            <defs>
+              <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b3fa0"></path>
+              </marker>
+            </defs>
+
+            <!-- Sun -->
+            <g id="sunBox" transform="translate(60,40)" style="cursor:pointer">
+              <circle r="28" fill="#ffd966" stroke="#f1c232"></circle>
+              <text x="0" y="5" text-anchor="middle" font-size="12" font-family="Inter">Sun</text>
+            </g>
+
+            <!-- plant -->
+            <g id="plantBox" transform="translate(250,40)" style="cursor:pointer">
+              <rect x="-72" y="-32" width="144" height="64" rx="10" fill="#2b7a5b"></rect>
+              <text x="0" y="6" text-anchor="middle" fill="#fff" font-size="13">Sitka spruce</text>
+            </g>
+
+            <!-- herbivore -->
+            <g id="herbBox" transform="translate(450,40)" style="cursor:pointer">
+              <rect x="-68" y="-30" width="136" height="60" rx="10" fill="#b38a46"></rect>
+              <text x="0" y="6" text-anchor="middle" fill="#fff">Roosevelt elk</text>
+            </g>
+
+            <!-- predator -->
+            <g id="predBox" transform="translate(630,40)" style="cursor:pointer">
+              <rect x="-68" y="-30" width="136" height="60" rx="10" fill="#a33b3b"></rect>
+              <text x="0" y="6" text-anchor="middle" fill="#fff">Cougar</text>
+            </g>
+
+            <!-- arrows -->
+            <path d="M92 40 L178 40" stroke="#6b3fa0" stroke-width="6" marker-end="url(#arrowA)" fill="none" stroke-linecap="round"></path>
+            <path d="M322 40 L398 40" stroke="#6b3fa0" stroke-width="6" marker-end="url(#arrowA)" fill="none" stroke-linecap="round"></path>
+            <path d="M522 40 L598 40" stroke="#6b3fa0" stroke-width="6" marker-end="url(#arrowA)" fill="none" stroke-linecap="round"></path>
+
+            <!-- annotations -->
+            <text x="210" y="100" font-size="12" fill="#333">~10% of energy transferred per trophic level (approx)</text>
+          </svg>
         </div>
-        <div class="card" id="cycleNitrogen">
+
+        <!-- Detrital chain -->
+        <div class="card diagram">
+          <strong>Detrital wood-decay chain</strong>
+          <svg viewBox="0 0 720 200" aria-label="Detrital chain" role="img" id="detritalSVG">
+            <defs>
+              <marker id="arrowB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#9c6c2b"></path>
+              </marker>
+            </defs>
+
+            <g transform="translate(90,80)" style="cursor:pointer">
+              <rect x="-100" y="-36" width="200" height="72" rx="12" fill="#6b4f35"></rect>
+              <text x="0" y="6" text-anchor="middle" fill="#fff">Nurse log (downed wood)</text>
+            </g>
+
+            <g transform="translate(360,80)" style="cursor:pointer">
+              <rect x="-110" y="-36" width="220" height="72" rx="12" fill="#8b5a2a"></rect>
+              <text x="0" y="6" text-anchor="middle" fill="#fff">Wood-decay fungi & beetles</text>
+            </g>
+
+            <g transform="translate(620,80)" style="cursor:pointer">
+              <rect x="-100" y="-36" width="200" height="72" rx="12" fill="#c5a36b"></rect>
+              <text x="0" y="6" text-anchor="middle" fill="#fff">Soil microbes & detritivores</text>
+            </g>
+
+            <path d="M200 80 L270 80" stroke="#9c6c2b" stroke-width="6" marker-end="url(#arrowB)" fill="none"></path>
+            <path d="M470 80 L540 80" stroke="#9c6c2b" stroke-width="6" marker-end="url(#arrowB)" fill="none"></path>
+
+            <text x="360" y="150" font-size="12" fill="#333">Decomposition releases nutrients for plant uptake and is essential to long-term soil fertility.</text>
+          </svg>
+        </div>
+
+        <!-- Aquatic chain -->
+        <div class="card diagram">
+          <strong>Aquatic & salmon nutrient chain</strong>
+          <svg viewBox="0 0 720 200" aria-label="Aquatic chain" role="img" id="aquaticSVG">
+            <defs>
+              <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c5d73"></path>
+              </marker>
+            </defs>
+
+            <g transform="translate(90,60)">
+              <rect x="-70" y="-28" width="140" height="56" rx="10" fill="#2c5d73"></rect>
+              <text x="0" y="6" fill="#fff" text-anchor="middle">Aquatic insects</text>
+            </g>
+
+            <g transform="translate(360,60)">
+              <rect x="-140" y="-28" width="280" height="56" rx="10" fill="#4fb0c8"></rect>
+              <text x="0" y="6" fill="#fff" text-anchor="middle">Coho/Chinook salmon (returning adults)</text>
+            </g>
+
+            <g transform="translate(620,60)">
+              <rect x="-100" y="-28" width="200" height="56" rx="10" fill="#6b3fa0"></rect>
+              <text x="0" y="6" fill="#fff" text-anchor="middle">Black bear / Bald eagle</text>
+            </g>
+
+            <path d="M170 60 L250 60" stroke="#2c5d73" stroke-width="6" marker-end="url(#arrowC)" fill="none"></path>
+            <path d="M430 60 L510 60" stroke="#2c5d73" stroke-width="6" marker-end="url(#arrowC)" fill="none"></path>
+
+            <text x="360" y="140" font-size="12" fill="#333">Salmon carcasses transfer marine nutrients (N,P) to riparian soils and food webs.</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Food web -->
+    <section id="foodweb">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="kicker">Network</div>
+          <h2>Interactive food web — draggable & exportable</h2>
+          <p class="muted">Drag nodes to explore connections; hover to highlight feeding links; click to open species profile. Use "Download web SVG" to export the current layout.</p>
+        </div>
+        <div class="small muted">Keyboard: M → jump to map, P → print</div>
+      </div>
+
+      <div class="card web" style="margin-top:12px">
+        <svg id="foodWeb" viewBox="0 0 1100 520" role="img" aria-label="Interactive food web"></svg>
+      </div>
+    </section>
+
+    <!-- Cycles -->
+    <section id="cycles">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="kicker">Cycles</div>
+          <h2>Water, nitrogen, carbon — animated and annotated</h2>
+          <p class="muted">Animated arrows show flux direction; click boxes for details, and view how human actions change flows.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:12px">
+        <div class="card">
+          <strong>Water cycle — rainforest</strong>
+          <div style="margin-top:8px" class="muted small">Precipitation → interception → transpiration → runoff → evaporation. Forests increase interception and regulate streamflow.</div>
+          <svg viewBox="0 0 460 220" class="diagram" aria-label="Water cycle diagram">
+            <defs>
+              <marker id="waterArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2c5d73"/></marker>
+            </defs>
+            <g transform="translate(30,30)">
+              <rect x="0" y="0" width="140" height="64" rx="10" fill="#d7f0fb" stroke="#bfe3f4"></rect>
+              <text x="70" y="36" text-anchor="middle">Ocean</text>
+            </g>
+            <g transform="translate(200,30)">
+              <rect x="0" y="0" width="200" height="64" rx="10" fill="#eaf6ef" stroke="#bfe8d1"></rect>
+              <text x="100" y="36" text-anchor="middle">Forest & Streams</text>
+            </g>
+            <path d="M170 60 L200 60" stroke="#2c5d73" stroke-width="6" marker-end="url(#waterArrow)"></path>
+            <path d="M240 90 L230 160" stroke="#2c5d73" stroke-width="4" marker-end="url(#waterArrow)"></path>
+            <text x="40" y="140" font-size="12" fill="#333">Evaporation / fog</text>
+          </svg>
+        </div>
+
+        <div class="card">
           <strong>Nitrogen cycle</strong>
-          <ol style="margin-top:8px">
-            <li>Fixation by bacteria and alder symbionts add bioavailable N.</li>
-            <li>Plants uptake N; herbivores concentrate it.</li>
-            <li>Decomposers return N to soil or atmosphere.</li>
-          </ol>
+          <div style="margin-top:8px" class="muted small">Fixation by alder & bacteria → plant uptake → herbivores → decomposition → denitrification or recycled nitrogen.</div>
+          <svg viewBox="0 0 460 220" class="diagram" aria-label="Nitrogen cycle diagram">
+            <g transform="translate(30,20)">
+              <rect x="0" y="0" width="400" height="50" rx="8" fill="#fff" stroke="#eee"></rect>
+              <text x="200" y="30" text-anchor="middle" font-size="12">Atmosphere (N₂) → Fixation → NH₄⁺/NO₃⁻ → Plant uptake → Consumers → Decomposition → Denitrification</text>
+            </g>
+            <text x="20" y="110" font-size="12" fill="#333">Red alder & free-living bacteria are important N sources in early succession.</text>
+          </svg>
         </div>
-        <div class="card" id="cycleCarbon">
+
+        <div class="card">
           <strong>Carbon cycle</strong>
-          <ol style="margin-top:8px">
-            <li>Photosynthesis stores carbon in wood and soil.</li>
-            <li>Respiration and decomposition return CO₂ to the air.</li>
-            <li>Salmon bring ocean carbon inland when they die.</li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section id="people" aria-labelledby="peopleTitle">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div class="kicker">Task 11</div>
-          <h2 id="peopleTitle">Human impacts & conservation</h2>
-          <p class="muted">Logging, habitat fragmentation, and invasive species (barred owl) are major pressures. Actions: protect old-growth, maintain riparian buffers, restore salmon runs, and manage invasive competitors.</p>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px">
-        <div class="card moss">
-          <strong>Logging impacts</strong>
-          <div class="small muted" style="margin-top:8px">Removes nesting trees, increases stream temperatures, and reduces carbon storage.</div>
-        </div>
-        <div class="card">
-          <strong>Conservation options</strong>
-          <div class="small muted" style="margin-top:8px">Riparian protections, selective harvesting, old-growth reserves, salmon restoration.</div>
-        </div>
-        <div class="card">
-          <strong>Community science</strong>
-          <div class="small muted" style="margin-top:8px">Monitoring streams and owls helps target on-the-ground actions.</div>
+          <div style="margin-top:8px" class="muted small">Photosynthesis draws CO₂ → biomass & wood; respiration & decay release CO₂; old-growth stores carbon long-term.</div>
+          <svg viewBox="0 0 460 220" class="diagram" aria-label="Carbon cycle diagram">
+            <g transform="translate(20,20)">
+              <rect x="0" y="0" width="420" height="150" rx="8" fill="#fff" stroke="#eee"></rect>
+              <text x="210" y="40" text-anchor="middle" font-size="12">CO₂ (air) → Photosynthesis → Biomass / wood → Decomposition / respiration → CO₂</text>
+              <text x="210" y="80" font-size="12" fill="#333">Old-growth trees store carbon for centuries; disturbance can release stored carbon.</text>
+            </g>
+          </svg>
         </div>
       </div>
     </section>
@@ -367,15 +485,15 @@
     <footer style="grid-column:1/-1">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div>
-          <strong>Sources</strong>
-          <div class="muted small">NPS, USGS, USFWS and regional ecology texts; charts are illustrative unless you provide data files.</div>
+          <strong>Sources & credits</strong>
+          <div class="small muted">NPS, USGS, USFWS, peer-reviewed ecology literature; diagrams are educational and annotated. For research-grade maps/figures provide GeoJSON/CSV and I will integrate them.</div>
         </div>
-        <div class="small muted">Built for education — contact to convert to a printable poster or a full mapping app.</div>
+        <div class="small muted">Replace placeholder images in public/photos/ for higher-quality print output.</div>
       </div>
     </footer>
   </main>
 
-  <!-- species modal -->
+  <!-- modal -->
   <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-hidden="true">
     <div class="modal" role="document" aria-live="polite">
       <button class="close" id="closeModal" aria-label="Close">✕</button>
@@ -384,343 +502,294 @@
   </div>
 
 <script>
-/* --------------------------
-   Theme, keyboard, utilities
-   -------------------------- */
+/* ----------------------------
+   Utility & UX: keyboard, print
+   ---------------------------- */
+document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+window.addEventListener('keydown', (e)=>{
+  if(e.key.toLowerCase()==='m') document.getElementById('map').scrollIntoView({behavior:'smooth'});
+  if(e.key.toLowerCase()==='p') window.print();
+});
+
+/* ----------------------------
+   Map: Leaflet with layers
+   ---------------------------- */
 (function(){
-  const toggle = document.getElementById('toggleTheme');
-  function applyTheme(dark){
-    document.documentElement.classList.toggle('dark', dark);
-    toggle.textContent = dark ? '🌙' : '🌤';
-    localStorage.setItem('dark', dark ? '1' : '0');
-  }
-  toggle.addEventListener('click', ()=> applyTheme(!document.documentElement.classList.contains('dark')));
-  // restore
-  applyTheme(localStorage.getItem('dark') === '1');
+  const map = L.map('map', {minZoom:3, maxZoom:18}).setView([47.8,-123.6], 7);
 
-  // keyboard shortcuts
-  window.addEventListener('keydown', (e)=>{
-    if(e.key.toLowerCase() === 'm') document.querySelector('#map').scrollIntoView({behavior:'smooth'});
-    if(e.key.toLowerCase() === 't') toggle.click();
-  });
-})();
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'}).addTo(map);
+  const topo = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg',{attribution:'Map tiles by Stamen'});
+  const esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Esri World Imagery'});
 
-/* --------------------------
-   Map: Leaflet setup
-   -------------------------- */
-(function(){
-  // create map
-  const map = L.map('map', {zoomControl:true, minZoom:3, maxZoom:18}).setView([47.8, -123.6], 7);
+  L.control.layers({"OpenStreetMap":osm,"Terrain":topo,"Imagery":esri}, {}, {collapsed:false}).addTo(map);
+  L.control.scale().addTo(map);
 
-  // tile layers
-  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'});
-  const topo = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg',{attribution:'Map tiles by Stamen', maxZoom:18});
-  const esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Esri World Imagery', maxZoom:18});
-  osm.addTo(map);
-
-  // Add scale and mouse position
-  L.control.scale({imperial:true, metric:true}).addTo(map);
-
-  // Sample rainforest corridor polygon (illustrative, simplified)
-  const corridor = {
-    "type":"Feature",
-    "properties":{ "name":"Pacific temperate rainforest corridor", "desc":"Approximate illustrative polygon." },
-    "geometry":{
-      "type":"Polygon",
-      "coordinates":[[ 
-        [-124.2,41.8],[-124.0,42.7],[-124.3,44.8],[-124.0,46.5],
-        [-123.2,47.5],[-123.8,48.5],[-125.0,49.6],[-131.5,55.5],
-        [-145.0,59.5],[-147.0,61.0],[-150.0,61.8],[-152.0,62.8],
-        [-160.0,64.5],[-168.0,65.0],[-170.0,66.5],[-170.0,68.0],
-        [-170.0,70.0],[-140.0,70.0],[-140.0,60.0],[-130.0,56.0],
-        [-125.0,52.0],[-123.0,50.0],[-122.0,48.0],[-122.5,46.5],
-        [-122.0,45.0],[-123.5,43.5],[-124.2,41.8]
-      ] ]
-    }
-  };
-
-  // convert coordinates order (GeoJSON uses lon,lat; Leaflet expects lat,lng)
-  function toLatLngs(coordArray){
-    return coordArray[0].map(function(pt){ return [pt[1], pt[0]]; });
-  }
-
-  const corridorLayer = L.polygon(toLatLngs(corridor.geometry.coordinates), {
-    color: '#1f6d49',
-    weight: 2,
-    fillColor: '#1f6d49',
-    fillOpacity: 0.12,
-    dashArray: '6 6'
-  }).addTo(map).bindPopup('<strong>Pacific temperate rainforest corridor</strong><br>Illustrative overlay from southern Alaska through BC into northern California.');
-
-  // Olympic National Park marker (approx coords near Hoh)
-  const olympicMarker = L.circleMarker([47.8600, -123.93], {
-    radius:10, color:'#fff', weight:2, fillColor:'#2b7a5b', fillOpacity:1
-  }).addTo(map).bindPopup('<strong>Olympic National Park</strong><br>Hoh Rain Forest area (approx)');
-
-  // marker with animated pulse (CSS via leaflet)
-  const pulseIcon = L.divIcon({
-    className: 'pulse-icon',
-    html: '<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgba(43,122,91,0.18);border:2px solid #2b7a5b;"></span>',
-    iconSize:[20,20]
-  });
-  const starMarker = L.marker([47.8021, -123.6044], {icon:pulseIcon}).addTo(map).bindPopup('<strong>Olympic Peninsula</strong><div class="small muted">Click for details.</div>');
-  starMarker.on('click', ()=> {
-    starMarker.openPopup();
-  });
-
-  // Hoh River polyline (simplified path)
-  const hohCoords = [
-    [47.880, -123.900],
-    [47.870, -123.920],
-    [47.860, -123.930],
-    [47.845, -123.940]
+  // illustrative corridor polygon (simplified)
+  const coords = [
+    [48.9,-125.5],[48.0,-124.6],[47.5,-124.0],[46.5,-124.0],[45.5,-124.2],[44.2,-124.6],[43.5,-124.9]
   ];
-  L.polyline(hohCoords, {color:'#2c5d73', weight:3, opacity:0.8}).addTo(map).bindPopup('Hoh River (approx)');
+  L.polygon(coords, {color:'#1f6d49', fillColor:'#1f6d49', fillOpacity:0.12, weight:2, dashArray:'6 6'}).addTo(map).bindPopup('<strong>Temperate rainforest corridor (illustrative)</strong>');
 
-  // Salmon migration polyline (illustrative)
-  const salmonPath = L.polyline([[47.8,-123.9],[48.2,-123.4],[48.8,-123.3]], {color:'#c34b2f', dashArray:'8 6', weight:3}).addTo(map).bindPopup('Illustrative salmon migration routes to stream systems');
+  // Olympic NP marker
+  L.marker([47.8600,-123.939]).addTo(map).bindPopup('<strong>Olympic National Park</strong><div class="small muted">Hoh area (approx)</div>');
 
-  // species markers + popups
+  // example salmon polyline
+  const salmon = L.polyline([[47.8,-123.9],[48.0,-123.4],[48.3,-123.2]], {color:'#c34b2f', dashArray:'8 6'}).addTo(map).bindPopup('Illustrative salmon migration routes');
+
+  // species markers
   const species = [
-    {name:'Roosevelt elk', coords:[47.75,-123.7], info:'Primary consumer — large herbivore.'},
-    {name:'Northern spotted owl', coords:[47.9,-123.6], info:'Threatened species; needs old-growth nesting habitat.'},
-    {name:'Coho salmon', coords:[47.8,-123.96], info:'Brings ocean nutrients into the forest.'},
-    {name:'Cougar', coords:[47.6,-123.8], info:'Apex predator — controls ungulate populations.'}
+    {name:'Roosevelt elk', coords:[47.75,-123.7]},
+    {name:'Northern spotted owl', coords:[47.9,-123.6]},
+    {name:'Coho salmon', coords:[47.8,-123.96]},
+    {name:'Cougar', coords:[47.6,-123.8]}
   ];
-  species.forEach(s=>{
-    L.marker(s.coords).addTo(map).bindPopup(`<strong>${s.name}</strong><div class="small muted">${s.info}</div><div style="margin-top:6px"><button class="btn" data-species="${s.name}" onclick="openSpeciesModal('${s.name.replace(/'/g,'\\\'')}')">View details</button></div>`);
-  });
-
-  // layer control
-  const baseMaps = { "OpenStreetMap": osm, "Terrain (Stamen)": topo, "Satellite (Esri)": esri };
-  const overlayMaps = { "Rainforest corridor": corridorLayer, "Hoh river": L.layerGroup([L.polyline(hohCoords)]), "Salmon routes": salmonPath };
-  L.control.layers(baseMaps, overlayMaps, {collapsed:false}).addTo(map);
-
-  // geolocate
-  document.getElementById('geolocate').addEventListener('click', ()=>{
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(pos=>{
-        const lat = pos.coords.latitude, lng = pos.coords.longitude;
-        map.setView([lat,lng], 10);
-        L.circle([lat,lng], {radius:50, color:'#2b7a5b'}).addTo(map).bindPopup('You are here').openPopup();
-      }, err => alert('Geolocation failed or denied.'));
-    } else alert('Geolocation not supported by your browser.');
-  });
-
-  // store map reference globally for debugging
-  window._OR_map = map;
+  species.forEach(s=> L.circleMarker(s.coords, {radius:8, fillColor:'#2c5d73', color:'#fff', weight:2}).addTo(map).bindPopup(`<strong>${s.name}</strong>`));
 })();
 
-/* --------------------------
-   Charts (Chart.js)
-   -------------------------- */
+/* ----------------------------
+   Charts: Chart.js (illustrative)
+   ---------------------------- */
 (function(){
   const ctx = document.getElementById('climateChart').getContext('2d');
-  const climateChart = new Chart(ctx, {
+  new Chart(ctx, {
     type:'bar',
-    data: {
+    data:{
       labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
       datasets:[
-        { type:'bar', label:'Rainfall (inches)', data:[16,13,11,7,5,3,1.5,1.7,3.2,8.5,14,18], backgroundColor:'rgba(43,93,115,0.9)', yAxisID:'y' },
-        { type:'line', label:'Avg Temperature (°F)', data:[42,44,46,52,58,62,64,64,59,53,47,43], borderColor:'rgba(140,100,58,0.95)', backgroundColor:'rgba(140,100,58,0.08)', yAxisID:'y1', tension:0.3 }
+        {type:'bar', label:'Rain (in)', data:[16,13,11,7,5,3,1.5,1.7,3.2,8.5,14,18], backgroundColor:'rgba(43,93,115,0.9)', yAxisID:'y'},
+        {type:'line', label:'Temp (°F)', data:[42,44,46,52,58,62,64,64,59,53,47,43], borderColor:'#8d6a2a', backgroundColor:'rgba(141,106,42,0.08)', yAxisID:'y1', tension:0.25}
       ]
     },
-    options:{
-      responsive:true,
-      interaction: {mode:'index', intersect:false},
-      scales:{
-        y:{type:'linear', position:'left', title:{display:true,text:'Rain (in)'}},
-        y1:{type:'linear', position:'right', grid:{drawOnChartArea:false}, title:{display:true,text:'Temperature (°F)'}}
-      },
-      plugins:{legend:{position:'top'}}
-    }
+    options:{responsive:true, interaction:{mode:'index',intersect:false}, scales:{y:{position:'left'}, y1:{position:'right', grid:{drawOnChartArea:false}}}}
   });
 
   const ctx2 = document.getElementById('owlChart').getContext('2d');
-  const owlChart = new Chart(ctx2, {
-    type:'line',
-    data:{
-      labels:['1995','2000','2005','2010','2013','2017'],
-      datasets:[{label:'Occupancy (%)', data:[81,72,60,44,21,16], borderColor:'#6b3fa0', backgroundColor:'rgba(107,63,160,0.12)', tension:0.25, fill:true}]
-    },
-    options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{min:0,max:100}}}
-  });
-
-  // expose charts for later updates
-  window._OR_charts = {climateChart, owlChart};
+  new Chart(ctx2, {type:'line', data:{labels:['1995','2000','2005','2010','2013','2017'], datasets:[{label:'Occupancy %', data:[81,72,60,44,21,16], borderColor:'#6b3fa0', backgroundColor:'rgba(107,63,160,0.12)', fill:true, tension:0.3}]}, options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{min:0,max:100}}}});
 })();
 
-/* --------------------------
-   Species modal system
-   -------------------------- */
+/* ----------------------------
+   Modal: species / info
+   ---------------------------- */
 (function(){
-  const modalBackdrop = document.getElementById('modalBackdrop');
-  const modalContent = document.getElementById('modalContent');
-  const closeModal = document.getElementById('closeModal');
+  const modal = document.getElementById('modalBackdrop');
+  const content = document.getElementById('modalContent');
+  const close = document.getElementById('closeModal');
 
-  const speciesData = {
-    'sitka': {title:'Sitka spruce', text:'A towering canopy tree (Picea sitchensis). Dominant in coastal forests; important for shade and microclimates.', img:'public/photos/sitka.jpg'},
-    'hemlock': {title:'Western hemlock', text:'Shade-tolerant conifer that regenerates on nurse logs.', img:'public/photos/hemlock.jpg'},
-    'elk': {title:'Roosevelt elk', text:'Largest native deer in the park; important herbivore and ecosystem engineer.', img:'public/photos/elk.jpg'},
-    'cougar': {title:'Cougar', text:'Apex predator that preys on ungulates and smaller mammals.', img:'public/photos/cougar.jpg'},
-    'owl': {title:'Northern spotted owl', text:'Federally threatened; depends on old-growth structure and flying squirrels.', img:'public/photos/owl.jpg'},
-    'salmon': {title:'Coho salmon', text:'Returns marine nutrients to freshwater and riparian systems after spawning and dying.', img:'public/photos/salmon.jpg'},
-    'Roosevelt elk': {title:'Roosevelt elk', text:'Large herbivore — click to open full profile.'}
+  const profiles = {
+    'Sitka spruce': {title:'Sitka spruce (Picea sitchensis)', text:'A towering coastal conifer. Major carbon store and structural backbone of the forest. Seeds feed songbirds; snags support cavity nesters.'},
+    'Roosevelt elk': {title:'Roosevelt elk', text:'A large herbivore that modifies vegetation structure and nutrient distribution.'},
+    'Coho salmon': {title:'Coho salmon', text:'Brings ocean nutrients inland; carcasses fertilize riparian areas and feed birds and mammals.'},
+    'Northern spotted owl': {title:'Northern spotted owl', text:'Threatened raptor dependent on complex old-growth structure and prey like flying squirrels.'},
+    'Cougar': {title:'Cougar (Puma concolor)', text:'Apex predator that can regulate ungulate populations.'},
+    'Wood-decay fungi': {title:'Wood-decay fungi', text:'Decompose lignin and cellulose, releasing nutrients into the soil and creating nurse logs.'}
   };
 
-  // open modal with HTML content
   window.openSpeciesModal = function(name){
-    const key = (name || '').toLowerCase().replace(/\s+/g,'');
-    const data = speciesData[key] || speciesData[name] || {title:name, text:'No details available.'};
-    modalContent.innerHTML = `<h2>${data.title}</h2><div class="small muted" style="margin-top:6px">${data.text}</div><div style="display:flex;gap:12px;margin-top:12px"><img src="${data.img || ''}" alt="${data.title}" style="width:220px;height:auto;border-radius:8px;object-fit:cover" onerror="this.style.display='none'"/><div style="flex:1"><p class="muted-small">Trophic role, habitat, notes, and conservation actions can be placed here. Replace placeholder images by adding files to public/photos/.</p><div style="margin-top:12px"><button class="btn" id="openMore">Read more</button></div></div></div>`;
-    modalBackdrop.style.display = 'flex';
-    modalBackdrop.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
+    const p = profiles[name] || {title:name, text:'Details not available.'};
+    content.innerHTML = `<h2>${p.title}</h2><p class="muted small">${p.text}</p><div style="margin-top:12px"><button class="btn" onclick="document.getElementById('modalBackdrop').style.display='none'">Close</button></div>`;
+    modal.style.display='flex'; modal.setAttribute('aria-hidden','false');
   };
 
-  closeModal.addEventListener('click', ()=> {
-    modalBackdrop.style.display = 'none';
-    modalBackdrop.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-  });
-  modalBackdrop.addEventListener('click', e => { if(e.target === modalBackdrop) closeModal.click(); });
-
-  // attach species buttons
-  document.querySelectorAll('[data-species]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const key = btn.dataset.species;
-      openSpeciesModal(key);
-    });
-  });
-
-  // open About modal
-  document.getElementById('openAbout').addEventListener('click', ()=>{
-    modalContent.innerHTML = `<h2>About this interactive poster</h2><p class="muted-small">This page is designed for teaching and exploration: interactive maps, charts, and an animated food web illustrate the ecology of Olympic National Park and the Pacific temperate rainforest corridor. Replace placeholder images in public/photos/ with higher-resolution images for better print/export.</p><div style="margin-top:12px"><button class="btn" onclick="closeModal.click()">Close</button></div>`;
-    modalBackdrop.style.display = 'flex';
-    modalBackdrop.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  });
-
-  // print button
-  document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+  close.addEventListener('click', ()=> { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); });
+  modal.addEventListener('click', e=> { if(e.target===modal) close.click(); });
 })();
 
-/* --------------------------
-   Food web simple interactive graph (SVG)
-   -------------------------- */
+/* ----------------------------
+   Food web: nodes, links, drag, highlight
+   ---------------------------- */
 (function(){
   const svg = document.getElementById('foodWeb');
-  const width = 900, height = 320;
-  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  const W = 1100, H = 520;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
-  // nodes and links (simple layout)
+  // nodes (more comprehensive)
   const nodes = [
-    {id:'Sun', x:70, y:40, color:'#ffd966'},
-    {id:'Sitka spruce', x:220, y:40, color:'#2b7a5b'},
-    {id:'Sword fern', x:220, y:120, color:'#2b7a5b'},
-    {id:'Banana slug', x:420, y:120, color:'#9c6c2b'},
-    {id:'Roosevelt elk', x:420, y:40, color:'#b38a46'},
-    {id:'Snowshoe hare', x:420, y:200, color:'#c5a36b'},
-    {id:'Bobcat', x:620, y:160, color:'#6b3fa0'},
-    {id:'Northern spotted owl', x:620, y:80, color:'#5a6b5f'},
-    {id:'Cougar', x:760, y:80, color:'#a33b3b'},
-    {id:'Coho salmon', x:620, y:240, color:'#2c5d73'},
-    {id:'Black bear', x:760, y:240, color:'#6b3fa0'}
-  ];
-  const links = [
-    ['Sun','Sitka spruce'],['Sun','Sword fern'],
-    ['Sitka spruce','Roosevelt elk'],['Sword fern','Roosevelt elk'],
-    ['Sword fern','Banana slug'],['Banana slug','Northern spotted owl'],
-    ['Snowshoe hare','Bobcat'],['Roosevelt elk','Cougar'],['Bobcat','Cougar'],
-    ['Coho salmon','Black bear'],['Coho salmon','Northern spotted owl']
+    {id:'Sun', x:80,y:40, color:'#ffd966', r:28, type:'abiotic'},
+    {id:'Sitka spruce', x:240,y:70, color:'#2b7a5b', r:32, type:'producer'},
+    {id:'Western hemlock', x:240,y:170, color:'#2b7a5b', r:28, type:'producer'},
+    {id:'Sword fern', x:240,y:260, color:'#2b7a5b', r:26, type:'producer'},
+    {id:'Red alder', x:240,y:350, color:'#2b7a5b', r:26, type:'producer'},
+    {id:'Banana slug', x:420,y:260, color:'#9c6c2b', r:20, type:'detritivore'},
+    {id:'Roosevelt elk', x:420,y:70, color:'#b38a46', r:26, type:'herbivore'},
+    {id:'Black-tailed deer', x:420,y:170, color:'#b38a46', r:22, type:'herbivore'},
+    {id:'Snowshoe hare', x:420,y:350, color:'#c5a36b', r:18, type:'herbivore'},
+    {id:'Wood-decay fungi', x:620,y:300, color:'#8b5a2a', r:26, type:'decomposer'},
+    {id:'Bobcat', x:760,y:240, color:'#6b3fa0', r:22, type:'mesopredator'},
+    {id:'Northern spotted owl', x:760,y:140, color:'#5a6b5f', r:22, type:'predator'},
+    {id:'Cougar', x:920,y:140, color:'#a33b3b', r:30, type:'apex'},
+    {id:'Coho salmon', x:620,y:420, color:'#2c5d73', r:22, type:'aquatic'},
+    {id:'Black bear', x:920,y:380, color:'#6b3fa0', r:28, type:'omnivore'},
+    {id:'Bald eagle', x:920,y:300, color:'#2c5d73', r:20, type:'predator'}
   ];
 
-  // draw links
-  links.forEach(l=>{
-    const source = nodes.find(n=>n.id===l[0]);
-    const target = nodes.find(n=>n.id===l[1]);
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1', source.x);
-    line.setAttribute('y1', source.y);
-    line.setAttribute('x2', target.x);
-    line.setAttribute('y2', target.y);
-    line.setAttribute('stroke', '#cfcfcf');
-    line.setAttribute('stroke-width', '2');
-    line.setAttribute('data-from', source.id);
-    line.setAttribute('data-to', target.id);
-    svg.appendChild(line);
+  // feeding links: source -> target
+  const links = [
+    ['Sun','Sitka spruce'],['Sun','Western hemlock'],['Sun','Sword fern'],['Sun','Red alder'],
+    ['Sitka spruce','Roosevelt elk'],['Sword fern','Roosevelt elk'],['Sword fern','Black-tailed deer'],['Sword fern','Banana slug'],
+    ['Banana slug','Wood-decay fungi'],['Red alder','Wood-decay fungi'],
+    ['Snowshoe hare','Bobcat'],['Roosevelt elk','Cougar'],['Bobcat','Cougar'],
+    ['Roosevelt elk','Black bear'],['Coho salmon','Black bear'],['Coho salmon','Bald eagle'],
+    ['Coho salmon','Northern spotted owl'],['Wood-decay fungi','Roosevelt elk'] // nutrient loop (illustrative)
+  ];
+
+  // create defs for arrowheads
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  const arrMarker = document.createElementNS('http://www.w3.org/2000/svg','marker');
+  arrMarker.setAttribute('id','arrow');
+  arrMarker.setAttribute('markerWidth','8');
+  arrMarker.setAttribute('markerHeight','8');
+  arrMarker.setAttribute('refX','8');
+  arrMarker.setAttribute('refY','4');
+  arrMarker.setAttribute('orient','auto');
+  const arrPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+  arrPath.setAttribute('d','M0,0 L8,4 L0,8 z');
+  arrPath.setAttribute('fill','#888');
+  arrMarker.appendChild(arrPath);
+  defs.appendChild(arrMarker);
+  svg.appendChild(defs);
+
+  // helper maps
+  const nodeById = new Map(nodes.map(n=>[n.id,n]));
+  const linkEls = [];
+
+  // draw links as curved paths
+  links.forEach((lk,i)=>{
+    const s = nodeById.get(lk[0]), t = nodeById.get(lk[1]);
+    if(!s||!t) return;
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke','#ccc');
+    path.setAttribute('stroke-width','2.8');
+    path.setAttribute('marker-end','url(#arrow)');
+    path.setAttribute('data-source', s.id);
+    path.setAttribute('data-target', t.id);
+    path.setAttribute('stroke-linecap','round');
+    svg.appendChild(path);
+    linkEls.push({el:path, s, t});
   });
 
   // draw nodes
   nodes.forEach(n=>{
     const g = document.createElementNS('http://www.w3.org/2000/svg','g');
     g.setAttribute('transform', `translate(${n.x},${n.y})`);
-    g.setAttribute('class','node');
     g.setAttribute('data-id', n.id);
+    g.style.cursor='grab';
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circle.setAttribute('r','26');
+    circle.setAttribute('r', n.r);
     circle.setAttribute('fill', n.color);
-    circle.setAttribute('stroke','#fff');
-    circle.setAttribute('stroke-width','3');
-    circle.style.cursor='pointer';
+    circle.setAttribute('stroke', '#fff');
+    circle.setAttribute('stroke-width', '3');
+    circle.classList.add('node-circle');
 
-    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
-    txt.setAttribute('x','0');
-    txt.setAttribute('y','5');
-    txt.setAttribute('text-anchor','middle');
-    txt.setAttribute('font-size','11');
-    txt.setAttribute('font-family','Inter, sans-serif');
-    txt.setAttribute('fill','#06301f');
-    txt.textContent = n.id;
+    const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    label.setAttribute('y', n.r + 16);
+    label.setAttribute('text-anchor','middle');
+    label.setAttribute('font-size','11');
+    label.setAttribute('font-family','Inter, sans-serif');
+    label.textContent = n.id;
 
     g.appendChild(circle);
-    g.appendChild(txt);
+    g.appendChild(label);
     svg.appendChild(g);
 
-    // basic interactivity
-    g.addEventListener('mouseenter', ()=> highlightNode(n.id));
-    g.addEventListener('mouseleave', ()=> resetHighlight());
-    g.addEventListener('click', ()=> openSpeciesModal(n.id));
+    // attach events for highlight and modal open
+    g.addEventListener('mouseenter', ()=> highlightNeighbors(n.id));
+    g.addEventListener('mouseleave', resetHighlight);
+    g.addEventListener('click', ()=> { openSpeciesModal(n.id); });
+
+    // dragging
+    let isDragging=false, startX=0, startY=0;
+    g.addEventListener('mousedown', (e)=>{
+      isDragging=true; startX = e.clientX; startY = e.clientY; g.style.cursor='grabbing';
+      document.body.style.userSelect='none';
+    });
+    window.addEventListener('mousemove', (e)=>{
+      if(!isDragging) return;
+      const dx = e.clientX - startX, dy = e.clientY - startY;
+      startX = e.clientX; startY = e.clientY;
+      // update node position
+      n.x += dx; n.y += dy;
+      g.setAttribute('transform', `translate(${n.x},${n.y})`);
+      updateLinks();
+    });
+    window.addEventListener('mouseup', ()=> { if(isDragging){ isDragging=false; g.style.cursor='grab'; document.body.style.userSelect=''; } });
   });
 
-  function highlightNode(id){
-    // dim all links & nodes
-    svg.querySelectorAll('line').forEach(l=> l.setAttribute('stroke','#eee'));
-    svg.querySelectorAll('.node circle').forEach(c=> c.setAttribute('opacity','0.25'));
-    svg.querySelectorAll('.node text').forEach(t=> t.setAttribute('opacity','0.25'));
-
-    // highlight links connected to id
-    svg.querySelectorAll(`line[data-from="${id}"], line[data-to="${id}"]`).forEach(l=>{
-      l.setAttribute('stroke','#f39c12'); l.setAttribute('stroke-width','3');
-      // highlight the connected nodes
-      const from = l.getAttribute('data-from'), to = l.getAttribute('data-to');
-      svg.querySelectorAll(`g[data-id="${from}"] circle, g[data-id="${to}"] circle`).forEach(c=> c.setAttribute('opacity','1'));
-      svg.querySelectorAll(`g[data-id="${from}"] text, g[data-id="${to}"] text`).forEach(t=> t.setAttribute('opacity','1'));
+  // update link path coordinates (curved)
+  function updateLinks(){
+    linkEls.forEach(({el,s,t})=>{
+      const dx = t.x - s.x, dy = t.y - s.y;
+      const mx = s.x + dx*0.5, my = s.y + dy*0.5;
+      // control point for curve (perpendicular)
+      const nx = -dy*0.2, ny = dx*0.2;
+      const c1x = mx + nx, c1y = my + ny;
+      const d = `M ${s.x} ${s.y} Q ${c1x} ${c1y} ${t.x} ${t.y}`;
+      el.setAttribute('d', d);
     });
+  }
+  updateLinks();
 
-    // highlight selected node
-    svg.querySelectorAll(`g[data-id="${id}"] circle`).forEach(c=> { c.setAttribute('opacity','1'); c.setAttribute('stroke-width','4'); });
-    svg.querySelectorAll(`g[data-id="${id}"] text`).forEach(t=> t.setAttribute('opacity','1'));
+  // highlight neighbors when hovering node
+  function highlightNeighbors(id){
+    const related = new Set();
+    linkEls.forEach(l=>{
+      if(l.s.id===id){ related.add(l.t.id); related.add(l.s.id); }
+      if(l.t.id===id){ related.add(l.s.id); related.add(l.t.id); }
+    });
+    // dim all
+    svg.querySelectorAll('path').forEach(p=> p.setAttribute('stroke','#eee'));
+    svg.querySelectorAll('g[data-id]').forEach(g=> { g.querySelector('circle').setAttribute('opacity',0.25); g.querySelector('text').setAttribute('opacity',0.25); });
+    // highlight related
+    svg.querySelectorAll('g[data-id]').forEach(g=>{
+      const nid = g.getAttribute('data-id');
+      if(related.has(nid)){
+        g.querySelector('circle').setAttribute('opacity',1);
+        g.querySelector('text').setAttribute('opacity',1);
+      }
+    });
+    // highlight links connecting related
+    linkEls.forEach(l=>{
+      if(related.has(l.s.id) && related.has(l.t.id)){
+        l.el.setAttribute('stroke','#f39c12'); l.el.setAttribute('stroke-width','3.5');
+      }
+    });
   }
 
   function resetHighlight(){
-    svg.querySelectorAll('line').forEach(l=> { l.setAttribute('stroke','#cfcfcf'); l.setAttribute('stroke-width','2'); });
-    svg.querySelectorAll('.node circle').forEach(c=> c.setAttribute('opacity','1'));
-    svg.querySelectorAll('.node text').forEach(t=> t.setAttribute('opacity','1'));
+    svg.querySelectorAll('path').forEach(p=> p.setAttribute('stroke','#ddd'));
+    svg.querySelectorAll('g[data-id]').forEach(g=> { g.querySelector('circle').setAttribute('opacity',1); g.querySelector('text').setAttribute('opacity',1); g.querySelector('circle').setAttribute('stroke-width', '3'); });
   }
-})();
 
-/* --------------------------
-   Final: small UX bits
-   -------------------------- */
-(function(){
-  // add focus outline for map when focused
-  const mapEl = document.getElementById('map');
-  mapEl.addEventListener('focus', ()=> mapEl.style.outline='3px solid rgba(31,109,73,0.12)');
-  mapEl.addEventListener('blur', ()=> mapEl.style.outline='none');
-})();
+  // export the current SVG (serialize)
+  document.getElementById('downloadWeb').addEventListener('click', ()=>{
+    // serialize with current transforms/paths
+    const serializer = new XMLSerializer();
+    const clone = svg.cloneNode(true);
+    // inline computed styles for basic compatibility (simple approach)
+    clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    const xml = serializer.serializeToString(clone);
+    const blob = new Blob([xml], {type:'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'olympic-food-web.svg';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=> URL.revokeObjectURL(url), 3000);
+  });
+
+  // update links continuously (in case of layout changes)
+  setInterval(updateLinks, 80);
+
+})(); // end food web
+
+/* ----------------------------
+   Download helper: food web SVG
+   ---------------------------- */
+/* handled above */
+
+/* ----------------------------
+   End
+   ---------------------------- */
 </script>
-
 </body>
 </html>
