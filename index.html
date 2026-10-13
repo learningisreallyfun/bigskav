@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Olympic Rainforest — Upgraded Poster</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --paper: #f6f4ef;
+      --card: #ffffff;
+      --muted: #52605a;
+      --ink: #122018;
+      --line: #e3ddd4;
+      --accent: #1f6d49; /* moss */
+      --accent-soft: #eaf6ef;
+      --gold: #8d6a2a;
+      --water: #2b5e74;
+      --nitrogen: #c46a1a;
+      --carbon: #5aa0b8;
+      --chain: #6b3fa0;
+      --web: #a33b3b;
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 8px 24px rgba(14,20,18,0.06);
+      --glass-border: rgba(255,255,255,0.7);
+      --radius: 16px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(180deg,var(--paper),#eef3ee 120%);
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding-bottom:48px;
+    }
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(246,244,239,0.9), rgba(246,244,239,0.7));
+      border-bottom:1px solid var(--line);
+      z-index:40;
+    }
+    .topbar{
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#2b7a5b);
+      box-shadow:var(--shadow);
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-family:Merriweather,serif;
+      font-size:18px;
+    }
+    nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex:1;overflow:auto;padding:6px}
+    .pill{flex:none;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:600;color:var(--ink);text-decoration:none;font-size:14px}
+    .controls{display:flex;gap:8px;align-items:center}
+
+    /* Layout */
+    main{max-width:1100px;margin:18px auto;padding:0 20px}
+    section{margin:26px 0;padding:18px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.45));border:1px solid var(--line);box-shadow:var(--shadow)}
+    .grid{display:grid;gap:12px}
+    .two{grid-template-columns:1fr}
+    .three{grid-template-columns:1fr}
+    @media(min-width:760px){ .two{grid-template-columns:1fr 1fr} .three{grid-template-columns:repeat(3,1fr)} }
+
+    /* Typography */
+    h1,h2,h3{font-family:Merriweather,serif;margin:0;color:var(--ink)}
+    h1{font-size:36px}
+    h2{font-size:22px;margin-bottom:6px}
+    .kicker{font-weight:800;color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+    p.lead{color:var(--muted);margin-top:8px}
+
+    /* Cards and images */
+    .card{
+      background:var(--card);
+      border-radius:12px;padding:14px;border:1px solid var(--line);
+      transition:transform .28s ease, box-shadow .28s ease;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(15,20,16,0.08)}
+    .moss{background:linear-gradient(180deg,var(--accent-soft),#f3fbf5);border-color:rgba(34,78,53,0.08)}
+    img.hero, .photo{width:100%;height:auto;border-radius:12px;object-fit:cover}
+    .hero{position:relative;overflow:hidden;border-radius:12px}
+    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.06));mix-blend-mode:multiply;pointer-events:none}
+
+    /* list styles */
+    ul.plain{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    .muted{color:var(--muted)}
+    .label{font-size:13px;color:var(--muted);font-weight:700;margin-bottom:6px;display:block}
+
+    /* chain & steps */
+    .chain{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .step{
+      background:linear-gradient(90deg,var(--chain),#8a53b0);
+      color:white;padding:8px 14px;border-radius:999px;font-weight:800;box-shadow:0 6px 18px rgba(107,63,160,0.12);
+      display:inline-flex;align-items:center;gap:10px;position:relative;overflow:visible;
+      transition:transform .28s cubic-bezier(.2,.9,.2,1);
+    }
+    .step:hover{transform:translateY(-4px) rotate(-1deg)}
+    .arrow{
+      width:36px;height:12px;display:inline-block;background:linear-gradient(90deg,var(--chain),#9a72c2);
+      clip-path:polygon(0 30%,85% 30%,100% 50%,85% 70%,0 70%);
+      animation:arrowPulse 1.6s infinite;
+    }
+    @keyframes arrowPulse{
+      0%{transform:translateX(0)}
+      50%{transform:translateX(6px)}
+      100%{transform:translateX(0)}
+    }
+
+    /* map */
+    .mapWrap{display:flex;gap:12px;align-items:stretch;flex-direction:column}
+    .mapCanvas{
+      background:linear-gradient(180deg,#dff1f8,#f0fafc);
+      border-radius:12px;padding:12px;border:1px solid rgba(60,115,160,0.06);
+      display:flex;gap:12px;align-items:center;justify-content:center;min-height:220px;
+    }
+    svg.map{max-width:100%;height:320px;width:100%;display:block}
+    .marker{fill:var(--accent);stroke:#fff;stroke-width:2;cursor:pointer;filter:drop-shadow(0 6px 12px rgba(31,109,73,0.14))}
+    .marker.pulse{transform-origin:center;animation:markerPulse 2s infinite}
+    @keyframes markerPulse{
+      0%{transform:scale(1)}
+      50%{transform:scale(1.1)}
+      100%{transform:scale(1)}
+    }
+    .coast{fill:#cfeef7;stroke:#b6e0ed;stroke-width:1;opacity:0.98}
+    .ocean{fill:linear-gradient(180deg,#bfe3f4,#d7f0fb)}
+    .map-legend{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+    /* cycles */
+    .cycle{transition:opacity .35s ease,transform .35s ease;opacity:0;transform:translateY(8px);display:none}
+    .cycle.active{opacity:1;transform:none;display:block}
+
+    /* reveal animation */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* footer */
+    footer{font-size:13px;color:var(--muted);margin-top:8px;display:flex;flex-direction:column;gap:8px}
+    .sources li{margin:6px 0}
+
+    /* small utilities */
+    .muted-small{color:var(--muted);font-size:13px}
+    .dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:8px}
+    .controls button{border:0;padding:8px 12px;border-radius:9px;background:var(--card);border:1px solid var(--line);cursor:pointer}
+    .controls button.primary{background:var(--accent);color:#fff;border-color:rgba(31,109,73,0.9)}
+
+    /* accessibility focus */
+    a:focus,button:focus{outline:3px solid rgba(45,125,77,0.16);outline-offset:3px;border-radius:8px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">OR</div>
+        <div>
+          <div style="font-weight:800">Olympic Rainforest</div>
+          <div class="muted-small">Temperate rainforest · Olympic Peninsula</div>
+        </div>
+      </div>
+
+      <nav aria-label="Main sections" role="navigation">
+        <a class="pill" href="#place">Place</a>
+        <a class="pill" href="#map">Map</a>
+        <a class="pill" href="#abiotic">Abiotic</a>
+        <a class="pill" href="#biotic">Biotic</a>
+        <a class="pill" href="#chain">Food chain</a>
+        <a class="pill" href="#web">Food web</a>
+      </nav>
+
+      <div class="controls" aria-hidden="true">
+        <button class="primary" onclick="document.querySelector('#map').scrollIntoView({behavior:'smooth'})">Explore map</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Place -->
+    <section id="place" class="grid two reveal">
+      <div>
+        <div class="kicker">Ecology poster · Washington</div>
+        <h1>Olympic National Park</h1>
+        <p class="lead">Temperate rainforest on the Olympic Peninsula with mild temperatures, huge rainfall, and ancient trees. This poster is interactive: hover, click, and reveal to learn more.</p>
+
+        <div class="grid two" style="margin-top:12px">
+          <div class="card">
+            <span class="label">Biome</span>
+            <strong>Temperate rainforest</strong>
+            <div class="muted-small" style="margin-top:8px">Cool summers, wet winters, prolific epiphytes.</div>
+          </div>
+          <div class="card">
+            <span class="label">Ecosystem</span>
+            <strong>Olympic National Park</strong>
+            <div class="muted-small" style="margin-top:8px">From alpine peaks to coastal estuaries.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero card" aria-hidden="false">
+        <picture>
+          <!-- Placeholder: replace with high-res photo at public/photos/hoh.jpg -->
+          <img class="photo" src="public/photos/hoh.jpg" alt="Hoh Rain Forest" onerror="this.style.opacity=.9;this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=1200 height=800><rect fill=\\'%23d7efe6\\' width=100% height=100%/><text x=50% y=50% font-family=\\'Inter\\' font-size=28 text-anchor=middle fill=\\'%23625f56\\'>Hoh Rain Forest — add your photo to public/photos/hoh.jpg</text></svg>'" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section id="map" class="reveal">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div class="kicker">Task 2</div>
+          <h2>Map of the biome</h2>
+          <p class="muted">The stylized map highlights the Pacific temperate rainforest corridor. Click the star marker to read about the Olympic Peninsula. For a fully interactive map (pan/zoom, basemaps), I can add a Leaflet/Mapbox integration.</p>
+        </div>
+        <div style="min-width:160px;text-align:right">
+          <div class="muted-small">Legend</div>
+          <div class="map-legend" aria-hidden="true" style="margin-top:6px">
+            <span class="dot" style="background:var(--accent)"></span> Olympic Peninsula
+            <span style="width:12px"></span>
+            <span class="dot" style="background:var(--water)"></span> Pacific coastline
+          </div>
+        </div>
+      </div>
+
+      <div class="mapWrap" style="margin-top:12px">
+        <div class="mapCanvas card">
+          <!-- Stylized SVG map (illustrative) -->
+          <svg class="map" viewBox="0 0 1000 420" role="img" aria-label="Stylized Pacific coast map">
+            <!-- Ocean background -->
+            <defs>
+              <linearGradient id="gsea" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#bfe3f4"/>
+                <stop offset="1" stop-color="#d7f0fb"/>
+              </linearGradient>
+              <linearGradient id="gland" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#e9f7ef"/>
+                <stop offset="1" stop-color="#d7efe4"/>
+              </linearGradient>
+              <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.08"/>
+              </filter>
+            </defs>
+
+            <rect width="1000" height="420" fill="url(#gsea)"/>
+            <!-- coast shapings (stylized) -->
+            <g transform="translate(40,20)" filter="url(#soft)">
+              <path class="coast" d="M30 40 C120 20 200 40 280 68 C360 96 420 120 520 118 C620 116 700 84 780 70 C860 56 920 66 960 80 L960 300 L30 300 Z"/>
+              <!-- temperate rainforest corridor shading -->
+              <path d="M38 64 C120 50 200 70 280 90 C360 110 430 130 520 128 C610 126 690 96 770 84 C840 74 920 84 954 96 L954 175 C820 160 700 204 580 210 C460 216 360 192 260 170 C160 148 84 130 38 118 Z" fill="rgba(31,109,73,0.12)"/>
+              <!-- markers -->
+              <!-- Olympic Peninsula star (approx) -->
+              <g id="olympic" transform="translate(160,84)" role="button" tabindex="0" aria-label="Olympic Peninsula: click to highlight">
+                <polygon class="marker pulse" points="-0,-8 5,-2 8,6 0,2 -8,6 -5,-2" />
+                <circle cx="0" cy="0" r="6" class="marker" />
+                <title>Olympic Peninsula — Olympic National Park</title>
+              </g>
+
+              <!-- sample city markers -->
+              <g transform="translate(460,180)"><circle r="4" fill="#fff" stroke="#2c5d73" stroke-width="2"></circle></g>
+              <g transform="translate(720,150)"><circle r="4" fill="#fff" stroke="#2c5d73" stroke-width="2"></circle></g>
+            </g>
+
+          </svg>
+        </div>
+
+        <div id="mapInfo" class="card" style="margin-top:10px">
+          <strong>Click the star</strong>
+          <div id="mapText" class="muted" style="margin-top:6px">Click the star marker to learn about the Olympic Peninsula and the temperate rainforest range.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Abiotic -->
+    <section id="abiotic" class="reveal">
+      <div class="kicker">Task 3</div>
+      <h2>Abiotic factors</h2>
+      <p class="muted">Key non-living components shape the rainforest's structure and productivity.</p>
+
+      <ul class="grid two" style="margin-top:10px">
+        <li class="card reveal"><span class="label">Water</span><strong>Heavy rain, rivers, and coastal fog</strong><div class="muted-small" style="margin-top:6px">Hoh: ~140–167 inches/year. Fog supplies moisture during dry summer spells.</div></li>
+        <li class="card reveal"><span class="label">Temperature</span><strong>Mild climate</strong><div class="muted-small" style="margin-top:6px">Cool summers, mild winters; reduced freeze frequency helps evergreen fungi and epiphytes.</div></li>
+        <li class="card reveal"><span class="label">Soil & nutrients</span><strong>Deep organic layers</strong><div class="muted-small" style="margin-top:6px">Nurse logs and fungal networks store and cycle nutrients.</div></li>
+        <li class="card reveal"><span class="label">Light</span><strong>Canopy-controlled</strong><div class="muted-small" style="margin-top:6px">Low understory light promotes shade-adapted plants like ferns and mosses.</div></li>
+      </ul>
+    </section>
+
+    <!-- Biotic -->
+    <section id="biotic" class="reveal">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+        <div>
+          <div class="kicker">Task 4</div>
+          <h2>Biotic factors</h2>
+          <p class="muted">Producers, consumers, and decomposers form complex networks — see the food web below.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:10px">Producers (examples)</h3>
+      <ul class="grid two" style="margin-top:8px">
+        <li class="card moss reveal"><strong>Sitka spruce</strong><div class="muted-small">Tall canopy tree; anchors many food chains.</div></li>
+        <li class="card moss reveal"><strong>Western hemlock</strong><div class="muted-small">Shade-tolerant conifer; seedlings on nurse logs.</div></li>
+        <li class="card moss reveal"><strong>Western redcedar</strong><div class="muted-small">Shelter and food for many animals.</div></li>
+        <li class="card moss reveal"><strong>Sword fern</strong><div class="muted-small">Ground cover and forage for elk and deer.</div></li>
+      </ul>
+
+      <h3 style="margin-top:10px">Consumers & others</h3>
+      <ul class="grid two" style="margin-top:8px">
+        <li class="card reveal"><strong>Roosevelt elk</strong> — herbivore</li>
+        <li class="card reveal"><strong>Black-tailed deer</strong> — herbivore</li>
+        <li class="card reveal"><strong>Banana slug</strong> — detritivore/herbivore</li>
+        <li class="card reveal"><strong>Bobcat</strong> — predator</li>
+        <li class="card reveal"><strong>Northern spotted owl</strong> — threatened predator</li>
+        <li class="card reveal"><strong>Cougar</strong> — apex predator</li>
+      </ul>
+    </section>
+
+    <!-- Chain -->
+    <section id="chain" class="reveal">
+      <div class="kicker">Task 5 · purple arrows</div>
+      <h2>Food chain</h2>
+      <div class="card" style="margin-top:12px">
+        <p class="chain" aria-hidden="true">
+          <span class="step">Sun</span>
+          <span class="arrow" aria-hidden="true"></span>
+          <span class="step">Sitka spruce</span>
+          <span class="arrow" aria-hidden="true"></span>
+          <span class="step">Roosevelt elk</span>
+          <span class="arrow" aria-hidden="true"></span>
+          <span class="step">Cougar</span>
+        </p>
+        <p class="muted" style="margin-top:8px">Energy flows from the sun through plants to herbivores to predators; roughly ~10% transfer efficiency per trophic step.</p>
+      </div>
+    </section>
+
+    <!-- Web -->
+    <section id="web" class="reveal">
+      <div class="kicker">Task 6 · red arrows</div>
+      <h2>Food web</h2>
+      <p class="muted">A few representative links — arrows point toward the eater.</p>
+
+      <ul class="grid two" style="margin-top:10px">
+        <li class="card reveal">Sword fern → Roosevelt elk</li>
+        <li class="card reveal">Sword fern → Black-tailed deer</li>
+        <li class="card reveal">Sword fern → Banana slug</li>
+        <li class="card reveal">Sitka spruce → Roosevelt elk</li>
+        <li class="card reveal">Snowshoe hare → Bobcat</li>
+        <li class="card reveal">Roosevelt elk → Cougar</li>
+        <li class="card reveal">Coho salmon → Black bear & Bald eagle</li>
+        <li class="card reveal">Aquatic insects → Coho salmon</li>
+      </ul>
+    </section>
+
+    <!-- Cycles -->
+    <section id="cycles" class="reveal">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div class="kicker">Task 7</div>
+          <h2>Water, nitrogen, and carbon cycles</h2>
+          <p class="muted">Switch between cycles below; they crossfade smoothly for a clearer storytelling experience.</p>
+        </div>
+
+        <div style="display:flex;gap:8px">
+          <button onclick="showCycle('water', this)" class="primary">Water</button>
+          <button onclick="showCycle('nitrogen', this)">Nitrogen</button>
+          <button onclick="showCycle('carbon', this)">Carbon</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div id="water" class="card cycle active">
+          <span class="pill" style="background:var(--water);color:#fff;padding:6px 10px;border-radius:8px">Blue arrows</span>
+          <ol style="margin-top:8px">
+            <li>Abundant rain and fog feed soil and streams; Hoh receives ~140–167 inches/year.</li>
+            <li>Trees and plants uptake water; transpiration sustains fog and local climate patterns.</li>
+            <li>Excess water runs into rivers, the ocean, and returns via evaporation.</li>
+          </ol>
+        </div>
+
+        <div id="nitrogen" class="card cycle" hidden>
+          <span class="pill" style="background:var(--nitrogen);color:#fff;padding:6px 10px;border-radius:8px">Orange arrows</span>
+          <ol style="margin-top:8px">
+            <li>Soil bacteria and alder symbionts fix nitrogen into bioavailable forms.</li>
+            <li>Plants absorb nitrogen; herbivores concentrate and redistribute it.</li>
+            <li>Decomposition returns nitrogen to soil or N2 via microbial processes.</li>
+          </ol>
+        </div>
+
+        <div id="carbon" class="card cycle" hidden>
+          <span class="pill" style="background:var(--carbon);color:#fff;padding:6px 10px;border-radius:8px">Light blue arrows</span>
+          <ol style="margin-top:8px">
+            <li>Photosynthesis locks atmospheric CO2 into wood and biomass.</li>
+            <li>Respiration and decomposition return CO2 to the atmosphere; long-lived trees store carbon for centuries.</li>
+            <li>Salmon transport marine carbon into streams and forests when they spawn and die.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Population / interactions / keystone / people -->
+    <section id="population" class="reveal">
+      <div class="kicker">Task 8</div>
+      <h2>Population — northern spotted owl</h2>
+      <ul class="grid two" style="margin-top:10px">
+        <li class="card reveal"><strong>Status</strong><div class="muted-small">Federally threatened</div></li>
+        <li class="card reveal"><strong>1990s estimate</strong><div class="muted-small">~230 pairs</div></li>
+        <li class="card reveal"><strong>Later change</strong><div class="muted-small">Down >80% from 1995–2017</div></li>
+        <li class="card reveal"><strong>Limiting factor</strong><div class="muted-small">Competition with barred owl; loss of old-growth.</div></li>
+        <li class="card reveal"><strong>Conservation</strong><div class="muted-small">Protect old-growth, manage barred owl competition.</div></li>
+      </ul>
+    </section>
+
+    <section id="interactions" class="reveal">
+      <div class="kicker">Task 9 · green arrows</div>
+      <h2>Community interactions</h2>
+      <ul class="grid two" style="margin-top:10px">
+        <li class="card reveal"><strong style="color:var(--accent)">Mutualism</strong><div class="muted-small">Lichen (fungus + alga) — both benefit.</div></li>
+        <li class="card reveal"><strong style="color:var(--accent)">Commensalism</strong><div class="muted-small">Epiphytes on Sitka spruce.</div></li>
+        <li class="card reveal"><strong style="color:var(--accent)">Parasitism</strong><div class="muted-small">Ticks on elk.</div></li>
+        <li class="card reveal"><strong style="color:var(--accent)">Predation</strong><div class="muted-small">Cougar hunts elk.</div></li>
+      </ul>
+    </section>
+
+    <section id="keystone" class="reveal">
+      <div class="kicker">Task 10</div>
+      <h2>Keystone species</h2>
+      <div class="card" style="background:linear-gradient(180deg,#fff7e6,#f7efe0);border-color:rgba(141,106,42,0.12)">
+        <h3>Pacific salmon</h3>
+        <p class="muted">Coho, Chinook, and other salmon move marine nutrients into rivers and riparian forests. Their decline reduces food for bears, eagles, and the nutrient subsidy that supports forest productivity.</p>
+      </div>
+    </section>
+
+    <section id="people" class="reveal">
+      <div class="kicker">Task 11</div>
+      <h2>Human impact</h2>
+      <div class="grid three" style="margin-top:10px">
+        <div class="card moss reveal" style="padding:18px;color:var(--paper);background:linear-gradient(180deg,var(--accent),#2b7a5b)">
+          <div style="font-weight:700">Logging old-growth around the park</div>
+        </div>
+        <div class="card reveal"><div class="muted-small">How it hurts</div><p class="muted-small" style="margin-top:8px">Removes nest trees, fragments habitat, reduces carbon storage, and affects stream shading and salmon habitat.</p></div>
+        <div class="card reveal"><div class="muted-small">Sustainable option</div><p class="muted-small" style="margin-top:8px">Protect old trees, enforce riparian buffers, favor selective harvests over clear-cuts.</p></div>
+      </div>
+    </section>
+
+    <!-- Poster key & footer -->
+    <section class="reveal">
+      <div class="kicker">Poster key</div>
+      <h2>Arrow colors & legend</h2>
+      <ul class="grid two" style="margin-top:10px">
+        <li class="card"><span class="dot" style="background:var(--chain)"></span> Food chain — purple arrows</li>
+        <li class="card"><span class="dot" style="background:var(--web)"></span> Food web — red arrows</li>
+        <li class="card"><span class="dot" style="background:var(--water)"></span> Water cycle — blue arrows</li>
+        <li class="card"><span class="dot" style="background:var(--nitrogen)"></span> Nitrogen cycle — orange arrows</li>
+        <li class="card"><span class="dot" style="background:var(--carbon)"></span> Carbon cycle — light blue arrows</li>
+        <li class="card"><span class="dot" style="background:var(--accent)"></span> Interactions — green arrows</li>
+      </ul>
+
+      <footer style="margin-top:12px">
+        <strong>Sources</strong>
+        <ul class="sources">
+          <li>National Park Service — Olympic National Park</li>
+          <li>U.S. Geological Survey — Ecology of Olympic National Park</li>
+          <li>U.S. Fish &amp; Wildlife Service — Northern spotted owl</li>
+        </ul>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    // Simple reveal on scroll
+    (function(){
+      const io = new IntersectionObserver((entries)=>{
+        for(const e of entries){
+          if(e.isIntersecting) e.target.classList.add('visible');
+        }
+      }, {threshold:0.12});
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    })();
+
+    // Map interaction: clicking the Olympic marker shows details
+    (function(){
+      const olympic = document.getElementById('olympic');
+      const mapText = document.getElementById('mapText');
+      if(olympic){
+        function show(){
+          mapText.innerHTML = "<strong>Olympic Peninsula — Olympic National Park</strong><div class='muted-small' style='margin-top:6px'>Temperate rainforest, high rainfall, and the Hoh Rain Forest. Star marks approximate park location.</div>";
+          // brief pulse highlight
+          olympic.querySelectorAll('.marker').forEach(m=>m.classList.add('pulse'));
+          setTimeout(()=>olympic.querySelectorAll('.marker').forEach(m=>m.classList.remove('pulse')),1600);
+        }
+        olympic.addEventListener('click', show);
+        olympic.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { show(); e.preventDefault(); }});
+      }
+    })();
+
+    // Cycles toggle with smooth crossfade
+    function showCycle(id, btn){
+      document.querySelectorAll('#cycles button').forEach(b => b.classList.remove('primary'));
+      btn.classList.add('primary');
+
+      document.querySelectorAll('.cycle').forEach(panel => {
+        if(panel.id === id){
+          panel.hidden = false;
+          panel.classList.add('active');
+          panel.style.display = 'block';
+        } else {
+          panel.classList.remove('active');
+          // hide after transition
+          setTimeout(()=> panel.hidden = true, 380);
+        }
+      });
+    }
+
+    // small accessibility: add keyboard shortcut 'm' to jump to map
+    window.addEventListener('keydown', (e)=>{
+      if(e.key.toLowerCase() === 'm' && !/input|textarea/i.test(document.activeElement.tagName)){
+        document.getElementById('map').scrollIntoView({behavior:'smooth'});
+      }
+    });
+
+    // progressive enhancement: animate chain arrows once on load
+    window.addEventListener('load', ()=>{
+      document.querySelectorAll('.arrow').forEach((a,i)=>{
+        a.style.animationDelay = (i*120)+'ms';
+      });
+    });
+  </script>
+</body>
+</html>
